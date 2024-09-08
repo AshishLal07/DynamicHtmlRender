@@ -118,7 +118,7 @@ const data = {
 			taxRate: "9.0%",
 			taxAmount: "₹13.45",
 			totalAmount: "₹365.00",
-			discount: "10%",
+			discount: "0.0%",
 			shippingCharges: {
 				amount: "₹30.96",
 				taxType: "CGST",
@@ -138,7 +138,7 @@ const data = {
 			taxRate: "18.0%",
 			taxAmount: "₹13.45",
 			totalAmount: "₹365.00",
-			discount: "10%",
+			discount: "0.0%",
 			shippingCharges: {
 				amount: "₹30.96",
 				taxType: "IGST",
@@ -348,12 +348,13 @@ const AmazonInvoice = (data) => {
 									);
 
 									if (product.taxType === "CGST") {
-										totalTax = totalTax + 2 * taxAmount + 2 * taxAmount;
+										totalTax += 2 * taxAmount + 2 * shippingTaxAmount;
 									} else {
-										totalTax = taxAmount + shippingTaxAmount;
+										totalTax += taxAmount + shippingTaxAmount;
 									}
 
-									totalAmount += netAmount;
+									totalAmount +=
+										netAmount + taxAmount + shippingTaxAmount + shippingCharge;
 
 									return `
                                     <tr>
@@ -428,7 +429,7 @@ const AmazonInvoice = (data) => {
 			<!-- Total and Footer -->
 			<div class="total">
 				<p>
-					<strong>Amount in Words:</strong> ${numberToWords(totalAmount.toFixed(0))}
+					<strong>Amount in Words:</strong> ${numberToWords(totalAmount.toFixed(0))}  only
 				</p>
 			</div>
 
